@@ -18,6 +18,11 @@
  * Modified by Daniel Ciolfi <daniel.ciolfi@gmail.com>
  **/
 
+/**
+ * Modified by Estevão Rocha <estevao.bom@gmail.com>
+ * 2018/10/29 
+ **/
+
 package org.godotengine.godot;
 
 import android.app.Activity;
@@ -111,6 +116,31 @@ public class Firestore {
 				}
 			}
 		});
+	} 
+
+	public void getDocument (final String p_name, final String p_doc_name) {
+		Utils.d("Firestore::LoadData");
+
+		db.collection(p_name).document(p_doc_name).get()
+		.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+			@Override
+			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+				if (task.isSuccessful()) {
+					DocumentSnapshot document = task.getResult();
+
+					if (document != null && document.exists()) {
+						Utils.d("Data: " + document.getData());
+						Utils.callScriptFunc("Firestore", "QueryDocument", new JSONObject(document.getData()).toString());
+					} else {
+						Utils.d("No such document");
+						Utils.callScriptFunc("Firestore", "SnapshotData", "");
+					}	
+		
+				} else {
+					Utils.w("Error getting documents: " + task.getException());
+				}
+			}
+		});
 	}
 
 	public void addDocument (final String p_name, final Dictionary p_dict) {
@@ -150,7 +180,6 @@ public class Firestore {
 				Utils.callScriptFunc("Firestore", "DocumentAdded", false);
 			}
 		});
-
 	}
     
     public void setListener(final String p_col_name, final String p_doc_name){
