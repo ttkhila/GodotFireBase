@@ -166,6 +166,15 @@ Retorna os documentos em JSON para:
 from = "Firestore", key = "Documents"
 ```
 
+Carregar dados de um documento específico:
+```
+firebase.get_document("collection_name", "document_name")
+```
+Retorna os documentos em JSON para:
+```
+from = "Firestore", key = "QueryDocument"
+```
+
 ### Listener
 Setar listener em um documento:
 ```
