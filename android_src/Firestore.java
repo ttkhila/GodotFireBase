@@ -133,7 +133,7 @@ public class Firestore {
 						Utils.callScriptFunc("Firestore", "QueryDocument", new JSONObject(document.getData()).toString());
 					} else {
 						Utils.d("No such document");
-						Utils.callScriptFunc("Firestore", "SnapshotData", "");
+						Utils.callScriptFunc("Firestore", "QueryDocument", "");
 					}	
 		
 				} else {
